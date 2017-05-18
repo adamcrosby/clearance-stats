@@ -48,7 +48,6 @@ def parse_file(soup):
 	indeterminate = ['case remanded with instruction', 'unfavorable decision is vacated']
 
 	for case in soup:
-		print "Found case"
 		dohacase = DOHACase()
 		dohacase.date = case.find('p', class_='date').get_text().strip()
 		kw = case.find('div', class_='keywords').get_text()
@@ -75,14 +74,12 @@ def parse_file(soup):
 
 def get_year(x):
 	url = "http://ogc.osd.mil/doha/industrial/%s.html"
-	print url % x
 	opener = urllib2.build_opener()
 	# OGC DOHA website is now filtering by useragent....which is silly.
 	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 	response = opener.open(url % x)
 	page = response.read()
 	soup = BeautifulSoup(page)
-	print soup
 	cases = parse_file(soup)
 	return cases
 
