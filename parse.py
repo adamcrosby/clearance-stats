@@ -73,7 +73,7 @@ def parse_file(soup):
 	return cases
 
 def get_year(x):
-	url = "http://www.dod.gov/dodgc/doha/industrial/%s.html"
+	url = "http://ogc.osd.mil/doha/industrial/%s.html"
 	data = urllib.urlopen(url % x)
 	soup = BeautifulSoup(data, "html.parser")
 	cases = parse_file(soup)
