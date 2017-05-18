@@ -2,10 +2,10 @@
 
 from bs4 import BeautifulSoup
 from collections import Counter
-import urllib
+import urllib2
 import pprint
 
-START_YEAR = 1997
+START_YEAR = 1996
 END_YEAR = 2017
 class DOHACase(object):
 	date = ""
@@ -48,6 +48,7 @@ def parse_file(soup):
 	indeterminate = ['case remanded with instruction', 'unfavorable decision is vacated']
 
 	for case in soup:
+		print "Found case"
 		dohacase = DOHACase()
 		dohacase.date = case.find('p', class_='date').get_text().strip()
 		kw = case.find('div', class_='keywords').get_text()
@@ -74,8 +75,14 @@ def parse_file(soup):
 
 def get_year(x):
 	url = "http://ogc.osd.mil/doha/industrial/%s.html"
-	data = urllib.urlopen(url % x)
-	soup = BeautifulSoup(data, "html.parser")
+	print url % x
+	opener = urllib2.build_opener()
+	# OGC DOHA website is now filtering by useragent....which is silly.
+	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+	response = opener.open(url % x)
+	page = response.read()
+	soup = BeautifulSoup(page)
+	print soup
 	cases = parse_file(soup)
 	return cases
 
@@ -83,7 +90,7 @@ overall_favorable = Counter()
 overall_unfavorable = Counter()
 overall_indeterminate = Counter()
 years = {}
-for x in xrange(START_YEAR, END_YEAR):
+for x in xrange(START_YEAR, END_YEAR+1):
 	year_favorable = Counter()
 	year_unfavorable = Counter()
 	year_indeterminate = Counter()
@@ -111,11 +118,11 @@ for x in xrange(START_YEAR, END_YEAR):
 	overall_indeterminate = overall_indeterminate + year_indeterminate
 	overall_unfavorable = overall_unfavorable + year_unfavorable
 	overall_favorable = overall_favorable + year_favorable
-	#print x, year_favorable, year_unfavorable
+	print x, year_favorable, year_unfavorable
 	years[x] = (year_favorable, year_unfavorable, year_indeterminate)
 pp = pprint.PrettyPrinter(indent=4)
 
-print "For years 1997-2014:"
+print "For years %s - %s:" % (START_YEAR, END_YEAR)
 print "Cases found Favorable for Applicant:"
 for k in sorted(overall_favorable, key=overall_favorable.get):
 	print "\t%s\t%s" % (overall_favorable[k], k)

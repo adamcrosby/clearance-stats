@@ -1,6 +1,6 @@
 # Security Clearance Stats Parser
 
-Pulls the content of http://ogc.osd.mil/doha/industrial/ and each year (currently 1997-2017), and prints a count for rationals (such as financial, criminal, etc.).
+Pulls the content of http://ogc.osd.mil/doha/industrial/ and each year (currently 1996-2017), and prints a count for rationals (such as financial, criminal, etc.).
 
 ```python parse.py```
 This will grab all 11 years worth (and will take some time).  To change what years are grabbed, edit parse.py and change `START_YEAR` and `END_YEAR` constants.
