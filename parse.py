@@ -79,7 +79,7 @@ def get_year(x):
 	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 	response = opener.open(url % x)
 	page = response.read()
-	soup = BeautifulSoup(page)
+	soup = BeautifulSoup(page, "html.parser")
 	cases = parse_file(soup)
 	return cases
 
@@ -93,6 +93,7 @@ for x in xrange(START_YEAR, END_YEAR+1):
 	year_indeterminate = Counter()
 	
 	cases = get_year(x)	
+	print "Getting year: %s" % x
 	for case in cases:
 		if case.disposition == "Favorable":
 			for k in case.keywords:
@@ -115,7 +116,7 @@ for x in xrange(START_YEAR, END_YEAR+1):
 	overall_indeterminate = overall_indeterminate + year_indeterminate
 	overall_unfavorable = overall_unfavorable + year_unfavorable
 	overall_favorable = overall_favorable + year_favorable
-	print x, year_favorable, year_unfavorable
+	#print x, year_favorable, year_unfavorable
 	years[x] = (year_favorable, year_unfavorable, year_indeterminate)
 pp = pprint.PrettyPrinter(indent=4)
 
