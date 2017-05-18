@@ -6,7 +6,7 @@ import urllib
 import pprint
 
 START_YEAR = 1997
-END_YEAR = 2016
+END_YEAR = 2017
 class DOHACase(object):
 	date = ""
 	disposition = ""
