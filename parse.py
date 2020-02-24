@@ -5,8 +5,8 @@ from collections import Counter
 import urllib2
 import pprint
 
-START_YEAR = 1996
-END_YEAR = 2017
+START_YEAR = 2019
+END_YEAR = 2019
 class DOHACase(object):
 	date = ""
 	disposition = ""
@@ -73,7 +73,7 @@ def parse_file(soup):
 	return cases
 
 def get_year(x):
-	url = "http://ogc.osd.mil/doha/industrial/%s.html"
+	url = "https://ogc.osd.mil/doha/industrial/%s.html"
 	opener = urllib2.build_opener()
 	# OGC DOHA website is now filtering by useragent....which is silly.
 	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
