@@ -5,7 +5,7 @@ from collections import Counter
 import urllib2
 import pprint
 
-START_YEAR = 2019
+START_YEAR = 1998
 END_YEAR = 2019
 class DOHACase(object):
 	date = ""
